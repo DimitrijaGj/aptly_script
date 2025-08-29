@@ -57,7 +57,7 @@ aptly snapshot drop debian-bookworm-contrib-...
 aptly db cleanup
 
 
-
+------------------------------------------------------------
 # Download public repo key
 wget -O /etc/apt/keyrings/aptly.asc https://www.aptly.info/pubkey.txt
 
