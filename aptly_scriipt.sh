@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
 ##List of Distros
-distros=("debian")
+distros=("bookworm")
 #distros=("debian" "trixie")
 #packages=("main" "contrib" "non-free" "non-free-firmware" "backport")
 # loop through distros and create mirrors
@@ -12,6 +13,7 @@ for distro in "${distros[@]}"; do
         echo "aptly mirror -architectures="amd64" create debian-$distro-non-free http://deb.debian.org/debian/ $distro non-free"
         echo "aptly mirror -architectures="amd64" create debian-$distro-non-free-firmware http://deb.debian.org/debian/ $distro non-free-firmware"
         echo "aptly mirror -architectures="amd64" create debian-$distro-contrib http://deb.debian.org/debian/ $distro contrib"
+        echo "aptly mirror -architectures="amd64" create debian-$distro-backports http://deb.debian.org/debian/ $distro-backports main"
     #done
 #done
 
