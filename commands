@@ -1,3 +1,63 @@
+# Create mirrors of bookworm
+aptly mirror -architectures="amd64" create debian-bookworm-main http://deb.debian.org/debian/ bookworm main
+aptly mirror -architectures="amd64" create debian-bookworm-non-free http://deb.debian.org/debian/ bookworm non-free
+aptly mirror -architectures="amd64" create debian-bookworm-non-free-firmware http://deb.debian.org/debian/ bookworm non-free-firmware
+aptly mirror -architectures="amd64" create debian-bookworm-contrib http://deb.debian.org/debian/ bookworm contrib
+
+
+aptly mirror update debian-bookworm-main
+aptly mirror update debian-bookworm-non-free
+aptly mirror update debian-bookworm-non-free-firmware
+aptly mirror update debian-bookworm-contrib
+    OR:
+    # update all mirrors
+    $ aptly mirror list -raw | xargs -n 1 aptly mirror update
+
+aptly snapshot create debian-bookworm-main-$(date +%Y%m%d) from mirror debian-bookworm-main
+aptly snapshot create debian-bookworm-non-free-$(date +%Y%m%d) from mirror debian-bookworm-non-free
+aptly snapshot create debian-bookworm-non-free-firmware-$(date +%Y%m%d) from mirror debian-bookworm-non-free-firmware
+aptly snapshot create debian-bookworm-contrib-$(date +%Y%m%d) from mirror debian-bookworm-contrib
+
+gpg --full-generate-key
+
+aptly publish snapshot -distribution=bookworm -component=main,non-free,non-free-firmware,contrib -architectures=amd64 -gpg-key="F27E0F81E2FB8857844298821BD9EE2923D8F6D0" debian-bookworm-main-$(date +%Y%m%d) debian-bookworm-non-free-$(date +%Y%m%d)  debian-bookworm-non-free-firmware-$(date +%Y%m%d) debian-bookworm-contrib-$(date +%Y%m%d)
+gpg --armor --output /mnt/mirrors/aptly/public/gpg --export F27E0F81E2FB8857844298821BD9EE2923D8F6D0
+
+
+
+
+Update:
+
+
+aptly mirror list -raw | xargs -n 1 aptly mirror update
+aptly snapshot create debian-bookworm-main-$(date +%Y%m%d) from mirror debian-bookworm-main
+aptly snapshot create debian-bookworm-non-free-$(date +%Y%m%d) from mirror debian-bookworm-non-free
+aptly snapshot create debian-bookworm-non-free-firmware-$(date +%Y%m%d) from mirror debian-bookworm-non-free-firmware
+aptly snapshot create debian-bookworm-contrib-$(date +%Y%m%d) from mirror debian-bookworm-contrib
+
+aptly publish switch \
+    -component=main,non-free,non-free-firmware,contrib \
+    -gpg-key="F27E0F81E2FB8857844298821BD9EE2923D8F6D0" \
+    bookworm \
+    debian-bookworm-main-$(date +%Y%m%d) \
+    debian-bookworm-non-free-$(date +%Y%m%d) \
+    debian-bookworm-non-free-firmware-$(date +%Y%m%d) \
+    debian-bookworm-contrib-$(date +%Y%m%d)
+
+aptly snapshot list -raw | grep "debian-bookworm-main-" | sort -r | tail -n $((keep + 1))
+aptly snapshot list -raw | grep "debian-bookworm-non-free-" | sort -r | tail -n $((keep + 1))
+aptly snapshot list -raw | grep "debian-bookworm-non-free-firmware-" | sort -r | tail -n $((keep + 1))
+aptly snapshot list -raw | grep "debian-bookworm-contrib-" | sort -r | tail -n $((keep + 1))
+
+aptly snapshot drop debian-bookworm-main-...
+aptly snapshot drop debian-bookworm-non-free-...
+aptly snapshot drop debian-bookworm-non-free-firmware-...
+aptly snapshot drop debian-bookworm-contrib-...
+
+aptly db cleanup
+
+
+
 # Download public repo key
 wget -O /etc/apt/keyrings/aptly.asc https://www.aptly.info/pubkey.txt
 
