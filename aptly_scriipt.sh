@@ -2,7 +2,7 @@
 
 set -e
 ##List of Distros
-distros=("bookworm" "trixie")
+distros=("bookworm")
 #distros=("debian" "trixie")
 #packages=("main" "contrib" "non-free" "non-free-firmware" "backport")
 # loop through distros and create mirrors
@@ -58,5 +58,6 @@ for distro in "${distros[@]}"; do
 # Clean up old snapshots (keeping latest 2)
         echo "============= Clean Up ==============>>>"
         echo "aptly snapshot list -raw | grep debian-$distro | sort | head -n -2 | xargs -r aptly snapshot drop"
+        echo "aptly db cleanup"
 
 done
