@@ -56,6 +56,34 @@ aptly snapshot drop debian-bookworm-contrib-...
 
 aptly db cleanup
 
+-----------------------------------------------------------
+---Debian resources for 9
+deb http://archive.debian.org/debian/ stretch main non-free contrib
+deb http://archive.debian.org/debian-security/ stretch/updates main contrib non-free
+
+---Debian 10
+deb http://archive.debian.org/debian/ bullseye main non-free contrib
+deb http://security.debian.org/debian-security/ bullseye-security main contrib non-free
+deb http://archive.debian.org/debian/ bullseye-updates main contrib non-free
+deb http://archive.debian.org/debian/ bullseye-backports main
+
+---Debian 11
+deb http://archive.debian.org/debian/ bullseye main non-free contrib
+deb http://security.debian.org/debian-security/ bullseye-security main contrib non-free
+deb http://archive.debian.org/debian/ bullseye-updates main contrib non-free
+deb http://archive.debian.org/debian/ bullseye-backports main
+
+---Debian 12
+deb http://deb.debian.org/debian/ bookworm main non-free non-free-firmware contrib
+deb http://security.debian.org/debian-security/ bookworm-security main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ bookworm-updates main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ bookworm-backports main
+
+---Debian 13
+deb http://deb.debian.org/debian/ trixie main non-free non-free-firmware contrib
+deb http://security.debian.org/debian-security/ trixie-security main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ trixie-backports main
 
 ------------------------------------------------------------
 # Download public repo key
