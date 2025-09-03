@@ -6,7 +6,7 @@ distros=("bookworm")
 #distros=("debian" "trixie")
 #packages=("main" "contrib" "non-free" "non-free-firmware" "backport")
 # loop through distros and create mirrors
-for distro in "${distros[@]}"; do 
+for distro in "${distros[@]}"; do
     #for package in "${packages[@]}"; do
         #echo "$distro and $package"
 
@@ -17,6 +17,7 @@ for distro in "${distros[@]}"; do
         echo "aptly mirror -architectures="amd64" create debian-$distro-non-free-firmware http://deb.debian.org/debian/ $distro non-free-firmware"
         echo "aptly mirror -architectures="amd64" create debian-$distro-contrib http://deb.debian.org/debian/ $distro contrib"
         echo "aptly mirror -architectures="amd64" create debian-$distro-backports http://deb.debian.org/debian/ $distro-backports main"
+        echo "aptly mirror -architectures="amd64" create debian-$distro-updates http://deb.debian.org/debian/ $distro-backports main"
     #done
 #done
 
@@ -24,7 +25,7 @@ for distro in "${distros[@]}"; do
         echo "============= Update Mirrors ==============>>>"
         echo "aptly mirror list -raw | xargs -n 1 aptly mirror update"
 
-# Create snapshot 
+# Create snapshot
         echo "============= Creating Snapshots ==============>>>"
         echo "aptly snapshot create debian-$distro-main-$(date +%Y%m%d) from mirror debian-$distro-main"
         echo "aptly snapshot create debian-$distro-non-free-$(date +%Y%m%d) from mirror debian-$distro-non-free"
